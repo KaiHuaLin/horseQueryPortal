@@ -59,6 +59,8 @@ def upload_file():
                 print("File saved")
                 status="File uploaded successfully"
 
+                print(request.form["query"])
+
                 # created the output file name
                 newFilename = filename.rsplit(".", 1)[0] + "_parsed.csv"
 
