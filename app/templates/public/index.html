@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horse Querey Portal</title>
+</head>
+<body>
+    <div>
+        <h3>Upload the SQLite file</h3>
+        <form action="/upload-file" method="POST" enctype="multipart/form-data">
+            <label for="file">Select a file:</label>
+            <input type="file" id="file" name="file">
+            <br />
+            <br />
+            <button type="submit">Upload</button>
+        </form>
+        <p>{{test}}</p>
+    </div>
+</body>
+</html>

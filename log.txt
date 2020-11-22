@@ -1,0 +1,85 @@
+9/25:
+pip install flask
+Made server.py for setting up localhost running
+Made index.html for the basic UI for the query portal including file uploader
+
+
+9/28:
+use flask to build the app
+
+https://youtu.be/6WruncSoCdI
+
+9/29:
+created upload file feature
+add validation checking for file
+
+9/30:
+re-structure validation
+add status message prompt
+
+
+10/11:
+
+1. made new route for getting filename
+2. use send_from_directory to download the file as requested
+3. use os.getcwd() to get the current working directory
+
+
+
+
+
+https://onedrive.live.com/view.aspx?resid=8EF18850A89E907F!913376&authkey=!ALCBBzPvaekhb8w
+
+
+
+10/17:
+
+check uploaded file first, if the file is good then pop up the form with vector sum...
+And if they click "parse" or something... then go to new page with result or download it.
+
+1. update the UI
+2. finish parse and download csv
+
+to-do:
+1. need to remove the Choose file button
+2. spinning icon
+3. error message
+4. delete files after parsing
+5. make it show the download button after upload it
+https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
+
+
+10/18:
+
+1. finished make it download in another page
+2. finish spinner
+3. finish error message
+4. finish deleteing file after downloaded
+5. finish UI
+
+
+10/25:
+
+to-do:
+1. click start over any delete the uploads (maybe...?)
+
+
+11/10:
+1. finish adding parametors for frontend
+2. need to figure out passing to the backend an backend part
+
+
+11/16:
+1. finish empty field checking and loading UI
+2. able to get all submitted field, 
+3. next time, check this: 
+https://stackoverflow.com/questions/58160006/how-to-get-multiple-elements-from-a-form-using-request-form-get
+use startwith to combine fields
+
+
+need to do: 
+first step: upload csv, 
+second step: next page, parse column as drop down list
+search horse and put in drop list?
+
+
