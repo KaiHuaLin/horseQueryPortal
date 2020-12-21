@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 
 import os
 
-from . import horseDBpython
+from . import multiplecsvinput
 
 @app.route("/")
 def index():
@@ -39,9 +39,6 @@ def upload_file():
         if request.files:
             file = request.files["file"]
 
-            for key, val in request.form.items():
-                print(key, val)
-
             if file.filename == "":
                 print("File must have a name")
                 status="No file name"
@@ -59,13 +56,22 @@ def upload_file():
                 print("File saved")
                 status="File uploaded successfully"
 
-                print(request.form["query"])
-
                 # created the output file name
                 newFilename = filename.rsplit(".", 1)[0] + "_parsed.csv"
 
+
+                if(request.form["query"] == "first"):
+                    print("it is first q")
+                    multiplecsvinput.nonCLI1(app.config["FILE_UPLOADS"] + filename, app.config["FILE_UPLOADS"] + newFilename)
+                
+
+                if(request.form["query"] == "second"):
+                    print("it is second q")
+                    multiplecsvinput.nonCLI2(app.config["FILE_UPLOADS"] + filename, app.config["FILE_UPLOADS"] + newFilename)
+
+
                 # run the parse function to generate the new file stored in uploads/ 
-                horseDBpython.nonCLI(app.config["FILE_UPLOADS"] + filename, app.config["FILE_UPLOADS"] + newFilename)
+                # horseDBpython.nonCLI(app.config["FILE_UPLOADS"] + filename, app.config["FILE_UPLOADS"] + newFilename)
 
                 return render_template("/public/download_file.html", filename = newFilename)
 
