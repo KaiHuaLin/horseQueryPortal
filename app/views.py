@@ -39,8 +39,11 @@ def upload_file():
         if request.files:
             file = request.files["file"]
 
-            for key, val in request.form.items():
-                print(key, val)
+            parameters = []
+            for _, val in request.form.items():
+                parameters.append(val)
+
+            print(parameters)
 
             if file.filename == "":
                 print("File must have a name")
@@ -63,6 +66,7 @@ def upload_file():
                 newFilename = filename.rsplit(".", 1)[0] + "_parsed.csv"
 
                 # run the parse function to generate the new file stored in uploads/ 
+                # loop through parameters with i+3 to call nonCLI
                 horseDBpython.nonCLI(app.config["FILE_UPLOADS"] + filename, app.config["FILE_UPLOADS"] + newFilename)
 
                 return render_template("/public/download_file.html", filename = newFilename)
