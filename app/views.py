@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 
 import os
 
-from . import horseDBpython
+from . import horseFiltering as fdb
 
 @app.route("/")
 def index():
@@ -67,7 +67,22 @@ def upload_file():
 
                 # run the parse function to generate the new file stored in uploads/ 
                 # loop through parameters with i+3 to call nonCLI
-                horseDBpython.nonCLI(app.config["FILE_UPLOADS"] + filename, app.config["FILE_UPLOADS"] + newFilename)
+
+                df1 = fdb.createTable(app.config["FILE_UPLOADS"] + filename)
+
+                print(len(parameters))
+
+                j = 0
+                while j < len(parameters):
+                    field = parameters[j]
+                    operator = parameters[j+1]
+                    value = parameters[j+2]
+
+                    fdb.filterTable(df1, field, operator, value)
+
+                    j+=3
+
+                fdb.exportTable(df1, app.config["FILE_UPLOADS"] + newFilename)
 
                 return render_template("/public/download_file.html", filename = newFilename)
 
