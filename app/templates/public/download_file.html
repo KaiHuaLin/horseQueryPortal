@@ -14,8 +14,11 @@
         <div class="wrapper">
             <h3 class="header">{{filename}}</h3>
             <div class="row justify-content-center">
-                <form action="/get-file/{{filename}}" method="GET" enctype="multipart/form-data">
+                <form action="/download-file/{{filename}}" method="GET" enctype="multipart/form-data">
                     <button type="submit" class="klButton">Download</button>
+                </form>
+                <form action="/retrieve-file/{{filename}}" method="GET" enctype="multipart/form-data">
+                    <button type="submit" class="klButton">View</button>
                 </form>
                 <button class="klButton" onclick="startOver()">Start Over</button>
             </div>
@@ -24,7 +27,7 @@
 
     <script>
         function startOver(){
-            window.location = "http://127.0.0.1:5000/upload-file"
+            window.location = document.location.origin + "/upload-file"
         }
     </script>
 </body>
