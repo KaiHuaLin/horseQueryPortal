@@ -49,12 +49,12 @@ def nonCLI2(inputfile, outputfile):
     print("Exported to", outputfile)
     
 def exportTable(inputDf, outputfile):
-    print("will export to", outputfile)
+    #print("will export to", outputfile)
     #print("input data:", inputDf)
-    print("Will attempt to use function parameter as inputDf, output filename, working...")
+    #print("Will attempt to use function parameter as inputDf, output filename, working...")
     #print(outputDf)
     inputDf.to_csv(outputfile)
-    print("Exported to", outputfile)
+    print("\n\n_____\nExported to", outputfile)
 
 def goQuery1(inputDf):
     
@@ -174,14 +174,36 @@ def goQuery2(inputDf):
   
     return inputDf
 
+def nullBlocks(inputDf):
+    
+    #print("\n\nNullBlocks activated on: \n\ninputDf", inputDf)
+
+    #print("inputDf is a ", type(inputDf))
+    # pandas filtering. 
+
+    # 2. no blocks
+    inputDf = inputDf[inputDf['Blocks'].isnull()]
+    
+    #print("inputDf is a ", type(inputDf))   
+    #print("after where\n\n", inputDf)
+    inputDf.dropna(how="all", inplace=True)
+    #print("\n\nDropna in NullBlocks (finished filtering)\n\n", inputDf)
+    
+    #print("inputDf is a ", type(inputDf))
+  
+    return inputDf
+
 def filterTable(df, column, operator, value):
     print("\n\nfilter table activated\n\n")
-    print(column, operator, value)
     #the conditional operators: (>, <, >=, <=, ==, !=)
     #also, for absolute value there will be more
-    if (value == "Null"):
-        df = df[df[column].isnull()]
+    if (value == "Null" and column == "Blocks" and operator == "=="):
+        df = df[df['Blocks'].isnull()] #can we make this an inplace=True?
         print(df[column])
+    elif (operator == "contains"):
+        contain_values = df[df[column].str.contains(value, na=False, regex=False)]
+        print(contain_values)
+        return contain_values
     else:
         if (operator == "=="):
             tableFilter = df[column] == value
@@ -196,7 +218,7 @@ def filterTable(df, column, operator, value):
         elif (operator == "!="):
             tableFilter = df[column] != value
         else:
-            errorstring = "Operator not valid and will cause tableFilter reference before assignment"
+            errorstring = "\n\nINPUT::\nOperator not valid and will cause tableFilter reference before assignment"
             raise ValueError(errorstring)  
                  
         df.where(tableFilter, inplace=True)
