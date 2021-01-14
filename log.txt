@@ -83,3 +83,5 @@ second step: next page, parse column as drop down list
 search horse and put in drop list?
 
 
+
+1/13: switched to prof. Wergeles's repo
