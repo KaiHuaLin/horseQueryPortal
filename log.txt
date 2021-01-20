@@ -85,3 +85,11 @@ search horse and put in drop list?
 
 
 1/13: switched to prof. Wergeles's repo
+
+
+1/18: 
+
+Q: for some reason when i do empty cache, it will reload everything such as, style.css, condition.html...
+and the parametor, condition,.... will be empty
+A: have to make sure GET /upload-file HTTP/1.1" 200 - runs after GET /static/html/condition.html HTTP/1.1" 200 - 
+in terminal

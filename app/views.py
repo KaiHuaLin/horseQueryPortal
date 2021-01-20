@@ -79,7 +79,7 @@ def upload_file():
                     operator = parameters[j+1]
                     value = parameters[j+2]
 
-                    fdb.filterTable(df1, field, operator, value)
+                    df1 = fdb.filterTable(df1, field, operator, value)
 
                     j+=3
 
