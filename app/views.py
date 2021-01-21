@@ -36,8 +36,6 @@ def allowed_file(filename):
 # api for uploading file
 @app.route("/api/upload-file", methods=["GET", "POST"])
 def upload_file():
-
-    # status that will pass to html
     if request.method == "POST":
         if request.files:
             file = request.files["myfile"]
@@ -50,11 +48,9 @@ def upload_file():
 
             if file.filename == "":
                 print("File must have a name")
-                status="No file name"
 
             elif not allowed_file(file.filename):
                 print("Invalid file type")
-                status="Invalid file type"
             
             else:
                 # secure file name
@@ -63,7 +59,6 @@ def upload_file():
                 # save file to the uploads directory in the server
                 file.save(os.path.join(app.config["FILE_UPLOADS"], filename))
                 print("File saved")
-                status="File uploaded successfully"
 
                 # created the output file name
                 newFilename = filename.rsplit(".", 1)[0] + "_parsed.csv"
