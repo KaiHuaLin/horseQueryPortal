@@ -8,9 +8,12 @@ import os
 
 from . import horseFiltering as fdb
 
-@app.route("/")
+@app.route("/api")
 def index():
-    return render_template("public/index.html")
+    return {
+        "name": "Hello world!"
+    }
+    # return render_template("public/index.html")
 
 # use os.getcwd() to get the current directory
 app.config["FILE_UPLOADS"] = os.getcwd() + "/app/uploads/"
@@ -31,14 +34,14 @@ def allowed_file(filename):
         return False
 
 # api for uploading file
-@app.route("/upload-file", methods=["GET", "POST"])
+@app.route("/api/upload-file", methods=["GET", "POST"])
 def upload_file():
 
     # status that will pass to html
     status=""
     if request.method == "POST":
         if request.files:
-            file = request.files["file"]
+            file = request.files["myfile"]
 
             parameters = []
             for _, val in request.form.items():
@@ -85,16 +88,25 @@ def upload_file():
 
                 fdb.exportTable(df1, app.config["FILE_UPLOADS"] + newFilename)
 
-                return render_template("/public/download_file.html", filename = newFilename)
-
+                return {
+                    "success" : True,
+                    "status": "file parsed successfully",
+                    "file": newFilename,
+                }
+        else:
+            print("no file")
     # return the html with passed in statusMessage
-    return render_template("/public/upload_file.html", statusMessage=status)
+    return {
+        "success" : False,
+        "status": "no a post request",
+        "file": "",
+    }
 
 
-@app.route("/download-file/<filename>")
+@app.route("/api/download-file/<filename>")
 def download_file(filename):
     try:
-
+        print(filename)
         file_path = app.config["FILE_UPLOADS"] + filename
 
         def generate():
@@ -121,7 +133,7 @@ def download_file(filename):
         abort(404)
 
 
-@app.route("/retrieve-file/<filename>")
+@app.route("/api/files/<filename>")
 def retrieve_file(filename):
     # convert csv to html
     csvfile = pd.read_csv(app.config["FILE_UPLOADS"] + filename)

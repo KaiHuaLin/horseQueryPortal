@@ -93,3 +93,12 @@ Q: for some reason when i do empty cache, it will reload everything such as, sty
 and the parametor, condition,.... will be empty
 A: have to make sure GET /upload-file HTTP/1.1" 200 - runs after GET /static/html/condition.html HTTP/1.1" 200 - 
 in terminal
+
+
+1/21:
+
+adapted to react:
+to-dos: 
+1. prompt user when theren is empty field for value 
+2. do the style
+3. make clicking download and redirect to home page, and alert it beforehand
