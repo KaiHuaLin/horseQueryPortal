@@ -38,7 +38,6 @@ def allowed_file(filename):
 def upload_file():
 
     # status that will pass to html
-    status=""
     if request.method == "POST":
         if request.files:
             file = request.files["myfile"]
