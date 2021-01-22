@@ -99,6 +99,6 @@ in terminal
 
 adapted to react:
 to-dos: 
-1. prompt user when theren is empty field for value 
+1. prompt user when theren is empty field for value: done
 3. make clicking download and redirect to home page, and alert it beforehand: done
-4. maybe make viewing html result in a new tab
+4. maybe make viewing html result in a new tab: done

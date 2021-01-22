@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-
 import axios from 'axios';
 
 function DownloadPage(props) {
     // this is filename and it's from MainPage, where it uses history to redirect page along with sending data
     const {state} = props.location;
     const [html, setHtml] = useState(null);
+    const [loading, setLoading] = useState(false);
 
 
     const download = () => {
@@ -33,10 +33,12 @@ function DownloadPage(props) {
     }
 
     const view = () => {
+        setLoading(true);
         axios.get(`/api/files/${state}`)
         .then(res => {
             setHtml(res.data);
-        })
+            setLoading(false);
+        });
     }
 
     const startOVer = () => {
@@ -47,15 +49,16 @@ function DownloadPage(props) {
         <div className="downloadPage">
             <div className="wrapper">
                 <h3 className="header">{state}</h3>
-                <button className="klButton" onClick={() => download()}>Download</button>
-                <button className="klButton" onClick={() => view()}>View</button>
-                <button className="klButton" onClick={() => startOVer()}>Start Over</button>
+                <button className="download__klButton" onClick={() => download()}>Download</button>
+                <button className="download__klButton" onClick={() => view()}>View</button>
+                <button className="download__klButton" onClick={() => startOVer()}>Start Over</button>
             </div>
             <br />
             <br />
             <br />
             <br />
             <br />
+            {loading === true ? (<div style={{textAlign: "center"}}>Loading preview...</div>) : (<div></div>)}
             <div className="content" dangerouslySetInnerHTML={{__html: html}}></div>
         </div>
     )

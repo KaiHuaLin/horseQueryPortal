@@ -53,6 +53,7 @@ function Condition(props) {
                 onChange={e => props.valueChange(e, props.condition.id)}
             />
             <button 
+                style={{cursor: "pointer"}}
                 onClick={() => props.deleteCondition(props.condition.id)}
             >
                 DELETE
