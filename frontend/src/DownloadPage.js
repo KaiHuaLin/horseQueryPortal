@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 
 import axios from 'axios';
-import ViewFile from './ViewFile';
 
 function DownloadPage(props) {
     // this is filename and it's from MainPage, where it uses history to redirect page along with sending data
@@ -43,10 +42,12 @@ function DownloadPage(props) {
 
     return (
         <div className="downloadPage">
-            <h3>{state}</h3>
-            <button onClick={() => download()}>Download</button>
-            <button onClick={() => view()}>View</button>
-            <button onClick={() => startOVer()}>Start Over</button>
+            <div className="wrapper">
+                <h3 className="header">{state}</h3>
+                <button className="klButton" onClick={() => download()}>Download</button>
+                <button className="klButton" onClick={() => view()}>View</button>
+                <button className="klButton" onClick={() => startOVer()}>Start Over</button>
+            </div>
             <br />
             <br />
             <br />

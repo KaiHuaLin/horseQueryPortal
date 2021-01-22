@@ -9,6 +9,7 @@ function MainPage() {
     let history = useHistory();
 
     const [file, setFile] = useState(null);
+    const [brwoseFilename, setBrowseFilename] = useState("Browse Files...");
     const [conditions, setConditions] = useState([{
         id: 0,
         parameter: "Analysis Type",
@@ -116,29 +117,45 @@ function MainPage() {
 
     return (
         <div className="mainPage">
-            <form onSubmit={handleSubmit}>
-                <input type="file" onChange={e => {setFile(e.target.files[0])}}/>
-                <button type="submit">Upload</button>
-            </form>
-
-            <ConditionList 
-                conditions={conditions}
-                parametorChange={parametorChange}
-                comparatorChange={comparatorChange}
-                valueChange={valueChange}
-                deleteCondition={deleteCondition}
-            />
-
-            <button
-                onClick={() => addCondition({
-                    id: conditions[conditions.length-1].id + 1 ,
-                    parameter: "Analysis Type",
-                    comparator: ">",
-                    value: "",
-                })}
-            >
-                ADD
-            </button>
+            <div className="wrapper">
+                <h3 className="header">Upload a CSV file</h3>
+                <form onSubmit={handleSubmit}>
+                    <div className="mainPage__browseFile">
+                        <label for="file" className="mainPage__browseFileButton">{brwoseFilename}</label>
+                    </div>
+                    <input 
+                        id="file" 
+                        type="file" 
+                        onChange={e => {
+                            setFile(e.target.files[0]);
+                            setBrowseFilename(e.target.files[0].name);
+                        }}
+                    />
+                    <br />
+                    <br />
+                    <button className="klButton" type="submit">Upload</button>
+                </form>
+                <br />
+                <br />
+                <ConditionList 
+                    conditions={conditions}
+                    parametorChange={parametorChange}
+                    comparatorChange={comparatorChange}
+                    valueChange={valueChange}
+                    deleteCondition={deleteCondition}
+                />
+                <button
+                    className="mainPage__browseFileButton"
+                    onClick={() => addCondition({
+                        id: conditions[conditions.length-1].id + 1 ,
+                        parameter: "Analysis Type",
+                        comparator: ">",
+                        value: "",
+                    })}
+                >
+                    ADD
+                </button>
+            </div>
         </div>
     )
 }

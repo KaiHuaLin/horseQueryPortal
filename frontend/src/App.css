@@ -1,3 +1,67 @@
 * {
   margin: 0;
 }
+
+body {
+  background-color: rgb(241, 241, 241);
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.wrapper {
+  text-align: center;
+  margin: 80px 20px;
+}
+
+.header {
+  font-weight: bold;
+  color: rgb(2, 100, 51);
+  margin-bottom: 50px;
+}
+
+.mainPage__browseFile {
+  font-weight: bold;
+  border: rgb(2, 100, 51) solid 1px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px grey;
+  background-color: white;
+  padding: 80px 100px;
+}
+
+.mainPage__browseFileButton {
+  display: block;
+  margin: 40px auto;
+  width: 10em;
+  font-size: 20px;
+  color: rgb(0, 77, 33);
+  background-color: transparent;
+  border:rgb(0, 77, 33) solid 1px;
+  padding: 10px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.mainPage__browseFileButton:hover {
+  background-color: rgb(0, 77, 33);
+  color: white;
+}
+
+.klButton {
+  width: 10em;
+  color: white;
+  background-color: rgb(0, 77, 33);
+  border: white solid 1px;
+  border-radius: 5px;
+  padding: 5px;
+  transition: 0.4s;
+}
+
+.klButton:hover {
+  background-color: transparent;
+  border: rgb(0, 77, 33) solid 1px;
+  color: rgb(0, 77, 33);
+  font-size: 17px;
+  cursor: pointer;
+}

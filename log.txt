@@ -100,5 +100,6 @@ in terminal
 adapted to react:
 to-dos: 
 1. prompt user when theren is empty field for value 
-2. do the style
+2. do the style, the cloud upload icon in main page
 3. make clicking download and redirect to home page, and alert it beforehand
+4. maybe make viewing html result in a new tab

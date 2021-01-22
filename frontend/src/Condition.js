@@ -57,6 +57,8 @@ function Condition(props) {
             >
                 DELETE
             </button>
+            <br />
+            <br />
         </div>
     )
 }
