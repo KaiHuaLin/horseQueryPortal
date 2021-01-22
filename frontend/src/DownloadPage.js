@@ -9,24 +9,27 @@ function DownloadPage(props) {
 
 
     const download = () => {
-        axios.get(`/api/download-file/${state}`)
-        .then(res => {
-            // got reponse data (csv data) from server
-            var csv = res.data;
-
-            // create a link for csv file to be download 
-            window.URL = window.webkitURL || window.URL;
-
-            // convert the csv content to Blob object, which make the csv become a file
-            var contentType = 'text/csv';
-            var csvFile = new Blob([csv], {type: contentType});
-
-            // create a tag with href of the url and trigger click() even to download automatically
-            var a = document.createElement('a');
-            a.download = state;
-            a.href = window.URL.createObjectURL(csvFile);
-            a.click();
-        })
+        if (window.confirm("After download, you will be redirected back to the main page")) {
+            axios.get(`/api/download-file/${state}`)
+            .then(res => {
+                // got reponse data (csv data) from server
+                var csv = res.data;
+    
+                // create a link for csv file to be download 
+                window.URL = window.webkitURL || window.URL;
+    
+                // convert the csv content to Blob object, which make the csv become a file
+                var contentType = 'text/csv';
+                var csvFile = new Blob([csv], {type: contentType});
+    
+                // create a tag with href of the url and trigger click() even to download automatically
+                var a = document.createElement('a');
+                a.download = state;
+                a.href = window.URL.createObjectURL(csvFile);
+                a.click();
+                startOVer();
+            })
+        }
     }
 
     const view = () => {

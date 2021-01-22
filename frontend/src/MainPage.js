@@ -16,6 +16,7 @@ function MainPage() {
         comparator: ">",
         value: "",
     }]);
+    const [error, setError] = useState("");
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -24,7 +25,7 @@ function MainPage() {
         var validForm = true;
 
         if (file == null) {
-            console.log("no file uploaded");
+            setError("no file selected")
             return;
         }
 
@@ -40,8 +41,7 @@ function MainPage() {
         })
 
         if (!validForm) {
-            console.log("emoty value")
-            // need to prompt user
+            setError("Please fill out every field")
             return;
         }
 
@@ -134,6 +134,9 @@ function MainPage() {
                     <br />
                     <br />
                     <button className="klButton" type="submit">Upload</button>
+                    <br />
+                    <br />
+                    <div style={{color: "red"}}>{error}</div>
                 </form>
                 <br />
                 <br />
