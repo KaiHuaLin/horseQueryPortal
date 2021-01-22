@@ -15,6 +15,10 @@ def index():
     }
     # return render_template("public/index.html")
 
+# if uploads dir does not exist, create upload dir
+if (os.path.isfile(os.getcwd() + "/app/uploads/") is False):
+    os.mkdir(os.getcwd() + "/app/uploads/")
+
 # use os.getcwd() to get the current directory
 app.config["FILE_UPLOADS"] = os.getcwd() + "/app/uploads/"
 
