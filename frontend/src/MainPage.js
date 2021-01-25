@@ -29,7 +29,13 @@ function MainPage() {
             return;
         }
 
-        formData.append("myfile", file, file.name);
+        let filename = "";
+        let filetype = "";
+        filename = file.name.split(".");
+        filetype = filename.pop();
+        filename = filename.join(".") + "_" + Date.now() + "." + filetype;
+
+        formData.append("myfile", file, filename);
 
         conditions.forEach(condition => {
             if (condition.value === "") {
@@ -121,7 +127,7 @@ function MainPage() {
                 <h3 className="header">Upload a CSV file</h3>
                 <form onSubmit={handleSubmit}>
                     <div className="mainPage__browseFile">
-                        <label for="file" className="mainPage__browseFileButton">{brwoseFilename}</label>
+                        <label htmlFor="file" className="mainPage__browseFileButton">{brwoseFilename}</label>
                     </div>
                     <input 
                         id="file" 

@@ -102,3 +102,11 @@ to-dos:
 1. prompt user when theren is empty field for value: done
 3. make clicking download and redirect to home page, and alert it beforehand: done
 4. maybe make viewing html result in a new tab: done
+
+
+1/25:
+
+1. cache causes problem for having view the same file
+solution: when do get request from frontend, append timestamp on the file name.
+** issue resolved
+

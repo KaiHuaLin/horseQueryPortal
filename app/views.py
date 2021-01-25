@@ -48,6 +48,7 @@ def upload_file():
             for _, val in request.form.items():
                 parameters.append(val)
 
+            print(file)
             print(parameters)
 
             if file.filename == "":
@@ -65,7 +66,8 @@ def upload_file():
                 print("File saved")
 
                 # created the output file name
-                newFilename = filename.rsplit(".", 1)[0] + "_parsed.csv"
+                parsedFilename, filetype = os.path.splitext(filename)
+                parsedFilename += "_parsed" + filetype
 
                 # run the parse function to generate the new file stored in uploads/ 
                 # loop through parameters with i+3 to call nonCLI
@@ -84,12 +86,12 @@ def upload_file():
 
                     j+=3
 
-                fdb.exportTable(df1, app.config["FILE_UPLOADS"] + newFilename)
+                fdb.exportTable(df1, app.config["FILE_UPLOADS"] + parsedFilename)
 
                 return {
                     "success" : True,
                     "status": "file parsed successfully",
-                    "file": newFilename,
+                    "file": parsedFilename,
                 }
         else:
             print("no file")
@@ -135,16 +137,7 @@ def download_file(filename):
 def retrieve_file(filename):
     # convert csv to html
     csvfile = pd.read_csv(app.config["FILE_UPLOADS"] + filename)
-    csvfile.to_html()
+    res = csvfile.to_html()
 
-    # created the output file name
-    newFilename = filename.rsplit(".", 1)[0] + ".html"
-
-    # create and open new file 
-    f = open(app.config["FILE_UPLOADS"] + newFilename, "w")
-
-    # convert csvfile dataframe to html string and write to the file
-    f.write(csvfile.to_html())
-
-    # return the file
-    return send_from_directory("uploads", newFilename)
+    # return the result as string
+    return res
