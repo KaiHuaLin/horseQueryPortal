@@ -24,25 +24,46 @@
                 <input type="file" id="file" name="file" class="inputfile">
                 <br />
                 <br />
+                <div class="container" id="conditions">
+                    <div class="row justify-content-around" id="condition0">
 
-                <div class="column">
-                    <select name="query">
-                        <option value="first">First Query</option>
-                        <option value="second">Second Query</option>
-                    </select>
+                    </div>
                 </div>
-
+                <br />
+                <div class="row justify-content-around">
+                    <div class="column">
+                        <div class="klButton" onclick="addCondition()">Add</div>
+                    </div>
+                </div>
                 <br />
                 <br />
-
-                <button type="submit" class="klButton" onclick="loading()">Upload</button>
+                <button class="klButton" onclick="upload()">Upload</button>
             </form>
             <p style="margin-top: 20px; color: red" id="status">{{statusMessage}}</p>
         </div>
     </div>
 
     <script>
+        var count = 0
+        var conditionID = "condition" + count
+
         $(document).ready(function(){
+            $( `#${conditionID}` ).load( "{{ url_for('static', filename='html/condition.html') }}" );
+
+            jQuery(document).ready(function() {
+                var children = document.getElementById(conditionID).children
+
+                var parametor = children[0].children[0]
+                var comparator = children[1].children[0]
+                var value = children[2].children[0]
+                var button = children[3].children[0]
+
+                parametor.setAttribute("name", "parametor"+count)
+                comparator.setAttribute("name", "comparator"+count)
+                value.setAttribute("name", "value"+count)
+                button.setAttribute("onclick", `deleteCondition(${count})`)
+            });
+
             $('input[type="file"]').change(function(e){
                 var fileName = e.target.files[0].name
                 var element = document.getElementById("uploadLabel")
@@ -50,12 +71,73 @@
             });
         });
 
-        function loading(){
+        function upload(){
+            event.preventDefault()
 
             // loading animation
             var element = document.getElementById("status")
             element.innerHTML = ""
             element.classList.add("spinner-border")
+
+            // check if there is any empty field
+            var isValid = true
+            var textfields = document.getElementsByClassName("textfield")
+            for(var i = 0; i < textfields.length; i++){
+                if(textfields[i].value == ""){
+                    isValid = false
+                    textfields[i].placeholder = "please fill this"
+                    textfields[i].style.borderColor = "red"
+                } else {
+                    textfields[i].placeholder = ""
+                    textfields[i].style.borderColor = "inherit"
+                }
+            }
+
+            // if valid form then submit
+            if(isValid === true){
+                element.style.display = "inline-block"
+                document.getElementById("form").submit()
+            } else {
+                element.style.display = "none"
+            }
+        }
+
+        function addCondition(){
+            count++
+            conditionID = "condition" + count
+
+            var row = document.createElement("div")
+            row.classList.add("row")
+            row.classList.add("justify-content-around")
+            row.setAttribute("id", conditionID)
+
+            document.getElementById("conditions").appendChild(row)
+            
+            $( `#${conditionID}` ).load( "{{ url_for('static', filename='html/condition.html') }}" );
+
+            // make sure loading is completed and assign name and onclick
+            jQuery(document).ready(function() {
+                var children = document.getElementById(conditionID).children
+
+                var parametor = children[0].children[0]
+                var comparator = children[1].children[0]
+                var value = children[2].children[0]
+                var button = children[3].children[0]
+
+                parametor.setAttribute("name", "parametor"+count)
+                comparator.setAttribute("name", "comparator"+count)
+                value.setAttribute("name", "value"+count)
+                button.setAttribute("onclick", `deleteCondition(${count})`)
+            });
+        }
+
+        function deleteCondition(index){
+            var conditions = document.getElementById("conditions")
+
+            if(conditions.children.length > 1){
+                var condition = document.getElementById(`condition${index}`)
+                condition.remove()
+            }
         }
     </script>
 </body>

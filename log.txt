@@ -83,3 +83,30 @@ second step: next page, parse column as drop down list
 search horse and put in drop list?
 
 
+
+1/13: switched to prof. Wergeles's repo
+
+
+1/18: 
+
+Q: for some reason when i do empty cache, it will reload everything such as, style.css, condition.html...
+and the parametor, condition,.... will be empty
+A: have to make sure GET /upload-file HTTP/1.1" 200 - runs after GET /static/html/condition.html HTTP/1.1" 200 - 
+in terminal
+
+
+1/21:
+
+adapted to react:
+to-dos: 
+1. prompt user when theren is empty field for value: done
+3. make clicking download and redirect to home page, and alert it beforehand: done
+4. maybe make viewing html result in a new tab: done
+
+
+1/25:
+
+1. cache causes problem for having view the same file
+solution: when do get request from frontend, append timestamp on the file name.
+** issue resolved
+

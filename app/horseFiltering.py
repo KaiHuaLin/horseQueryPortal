@@ -32,7 +32,7 @@ def nonCLI1(inputfile, outputfile):
     #print(inputDf)
     outputDf = pd.DataFrame()
     print("Will attempt to use function parameters as filenames, working...")
-    outputDf = goQuery1(inputDf, outputDf)
+    outputDf = goQuery1(inputDf)
     #print(outputDf)
     outputDf.to_csv(outputfile)
     print("Exported to", outputfile)
@@ -43,24 +43,22 @@ def nonCLI2(inputfile, outputfile):
     #print(inputDf)
     outputDf = pd.DataFrame()
     print("Will attempt to use function parameters as filenames, working...")
-    outputDf = goQuery2(inputDf, outputDf)
+    outputDf = goQuery2(inputDf)
     #print(outputDf)
     outputDf.to_csv(outputfile)
     print("Exported to", outputfile)
     
-def queryTableExport(inputDf, outputfile):
-    print("will export to", outputfile)
-    print("input data:", inputDf)
-    outputDf = pd.DataFrame()
-    print("Will attempt to use function parameter as inputDf, output filename, working...")
-    outputDf = goQuery(inputDf, outputDf)
+def exportTable(inputDf, outputfile):
+    #print("will export to", outputfile)
+    #print("input data:", inputDf)
+    #print("Will attempt to use function parameter as inputDf, output filename, working...")
     #print(outputDf)
-    outputDf.to_csv(outputfile)
-    print("Exported to", outputfile)
+    inputDf.to_csv(outputfile)
+    print("\n\n_____\nExported to", outputfile)
 
-def goQuery1(inputDf, outputDf):
+def goQuery1(inputDf):
     
-    print("\n\nQUERY 1 \n\ninputDf", inputDf, "output", outputDf)
+    print("\n\nQUERY 1 \n\ninputDf", inputDf, "output")
 
     #print("inputDf is a ", type(inputDf))
     # pandas filtering. 
@@ -70,7 +68,7 @@ def goQuery1(inputDf, outputDf):
     # 2. no blocks
     # 3. at least twenty strides
     # 4. VS > 8.5 (absolute value)
-    # 5. diffmax pelvis >3 (absolute value)
+    # 5. diffMIN pelvis >3 (absolute value)
     # 6. sign of diffminpelvis same as sign of diffminhead
     # this is ipsilateral? If memory serves
     
@@ -89,9 +87,9 @@ def goQuery1(inputDf, outputDf):
     vectorPosFilter = inputDf["Fore Signed Vector Sum"] > 8.5
     vectorNegFilter = inputDf["Fore Signed Vector Sum"] < -8.5
     
-    # 5. diffmax pelvis >3 (absolute value)
-    hinddiffmaxmeanPosFilter = inputDf["Hind Diff Max Mean"] > 3
-    hinddiffmaxmeanNegFilter = inputDf["Hind Diff Max Mean"] < -3
+    # 5. diffmin pelvis >3 (absolute value)
+    hinddiffmaxmeanPosFilter = inputDf["Hind Diff Min Mean"] > 3
+    hinddiffmaxmeanNegFilter = inputDf["Hind Diff Min Mean"] < -3
     
     # 6. diffminpelvis same sign as diffminhead. 
     # 'Hind Diff Min Mean' 'Fore Diff Min Mean'
@@ -111,15 +109,15 @@ def goQuery1(inputDf, outputDf):
     #print("inputDf is a ", type(inputDf))   
     #print("after where\n\n", inputDf)
     inputDf.dropna(how="all", inplace=True)
-    print("\n\nQUERY 2 after dropna (finished filtering)\n\n", inputDf)
+    print("\n\nQUERY 1 after dropna (finished filtering)\n\n", inputDf)
     
     #print("inputDf is a ", type(inputDf))
-  
+    
     return inputDf
 
-def goQuery2(inputDf, outputDf):
+def goQuery2(inputDf):
     
-    print("\n\nQUERY 2 \n\ninputDf", inputDf, "output", outputDf)
+    print("\n\nQUERY 2 \n\ninputDf", inputDf)
 
     #print("inputDf is a ", type(inputDf))
     # pandas filtering. 
@@ -175,7 +173,59 @@ def goQuery2(inputDf, outputDf):
     #print("inputDf is a ", type(inputDf))
   
     return inputDf
-                
+
+def nullBlocks(inputDf):
+    
+    #print("\n\nNullBlocks activated on: \n\ninputDf", inputDf)
+
+    #print("inputDf is a ", type(inputDf))
+    # pandas filtering. 
+
+    # 2. no blocks
+    inputDf = inputDf[inputDf['Blocks'].isnull()]
+    
+    #print("inputDf is a ", type(inputDf))   
+    #print("after where\n\n", inputDf)
+    inputDf.dropna(how="all", inplace=True)
+    #print("\n\nDropna in NullBlocks (finished filtering)\n\n", inputDf)
+    
+    #print("inputDf is a ", type(inputDf))
+  
+    return inputDf
+
+def filterTable(df, column, operator, value):
+    print("\n\nfilter table activated\n\n")
+    #the conditional operators: (>, <, >=, <=, ==, !=)
+    #also, for absolute value there will be more
+    if (value == "Null" and column == "Blocks" and operator == "=="):
+        df = df[df['Blocks'].isnull()] #can we make this an inplace=True?
+        print(df[column])
+    elif (operator == "contains"):
+        contain_values = df[df[column].str.contains(value, na=False, regex=False)]
+        print(contain_values)
+        return contain_values
+    else:
+        if (operator == "=="):
+            tableFilter = df[column] == value
+        elif (operator == ">"):
+            tableFilter = df[column] > value
+        elif (operator == "<"):
+            tableFilter = df[column] < value
+        elif (operator == ">="):
+            tableFilter = df[column] >= value
+        elif (operator == "<="):
+            tableFilter = df[column] <= value
+        elif (operator == "!="):
+            tableFilter = df[column] != value
+        else:
+            errorstring = "\n\nINPUT::\nOperator not valid and will cause tableFilter reference before assignment"
+            raise ValueError(errorstring)  
+                 
+        df.where(tableFilter, inplace=True)
+    df.dropna(how="all", inplace=True)
+    
+    return df
+                    
 def main():
     print("printed from main")
     #create parser
